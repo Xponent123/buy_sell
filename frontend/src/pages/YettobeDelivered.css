@@ -1,0 +1,106 @@
+:root {
+    --primary-color: #e4e6ff;
+    --secondary-color: #a8b2ff;
+    --accent-color: #5b6eff;
+    --background-color: #0f1229;
+    --card-background: #1a2148;
+    --border-color: #2c3766;
+    --border-radius: 16px;
+    --box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    --transition-speed: 0.3s;
+}
+
+body {
+    background: var(--background-color);
+    font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+    color: var(--primary-color);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+.buyer-deliveries-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    background: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin: 2rem auto;
+    max-width: 1200px; /* Increased max-width to accommodate 3 boxes */
+    width: 120%;
+}
+
+.buyer-deliveries-container h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    text-align: center;
+    letter-spacing: -0.05rem;
+}
+
+.buyer-deliveries-container ul {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    gap: 1.5rem; /* Space between items */
+}
+
+.buyer-deliveries-container li {
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--box-shadow);
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    width: 100%; /* Ensure all boxes have the same width */
+}
+
+.buyer-deliveries-container li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.buyer-deliveries-container h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--accent-color);
+}
+
+.buyer-deliveries-container p {
+    font-size: 1rem;
+    color: var(--secondary-color);
+    margin: 0.5rem 0;
+}
+
+.buyer-deliveries-container p strong {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+.no-items-message {
+    font-size: 1.25rem;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-top: 2rem;
+    opacity: 0.8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .buyer-deliveries-container ul {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .buyer-deliveries-container ul {
+        grid-template-columns: 1fr; /* 1 column on very small screens */
+    }
+}

@@ -1,0 +1,205 @@
+
+.main-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: 100vh;
+}
+
+.seller-pending-deliveries-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.seller-pending-deliveries-container h1 {
+    font-size: 2.5rem;
+    color: var(--text);
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border-radius: 12px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 6px var(--light-shadow);
+}
+
+
+.seller-pending-deliveries-container ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    list-style: none;
+    padding: 0;
+}
+
+.seller-pending-deliveries-container li {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.seller-pending-deliveries-container li:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px var(--light-shadow);
+    border-color: var(--primary);
+}
+
+
+.product-image-container {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+}
+
+.product-image {
+    max-width: 10vw;
+    max-height: 20vh ;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.seller-pending-deliveries-container li:hover .product-image {
+    transform: scale(1.05);
+}
+
+
+.product-details {
+    padding: 1rem;
+}
+
+.product-name {
+    padding: 1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem 1rem;
+    padding: 1rem;
+}
+
+.details-grid p:nth-child(odd) {
+    color: var(--light-secondary-text);
+    font-weight: 500;
+}
+
+.details-grid p:nth-child(even) {
+    color: var(--text);
+}
+
+
+.seller-pending-deliveries-container input {
+    width: calc(100% - 2rem);
+    margin: 1rem;
+    padding: 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.seller-pending-deliveries-container input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+
+.seller-pending-deliveries-container button {
+    width: calc(100% - 2rem);
+    margin: 1rem;
+    padding: 0.75rem;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.seller-pending-deliveries-container button:disabled {
+    background: var(--border);
+    color: var(--light-secondary-text);
+    cursor: not-allowed;
+}
+
+.seller-pending-deliveries-container button:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+
+.seller-pending-deliveries-container > p {
+    text-align: center;
+    padding: 3rem;
+    color: var(--light-secondary-text);
+    font-style: italic;
+    background: var(--bg);
+    border-radius: 8px;
+    border: 1px dashed var(--border);
+}
+
+
+.dashboard-button-container {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+}
+
+.go-to-dashboard {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: var(--primary);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.go-to-dashboard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--light-shadow);
+}
+
+
+.loading {
+    text-align: center;
+    padding: 2rem;
+    color: var(--light-secondary-text);
+}
+
+
+@media (max-width: 768px) {
+    .seller-pending-deliveries-container {
+        padding: 1rem;
+    }
+    
+    .seller-pending-deliveries-container h1 {
+        font-size: 2rem;
+        padding: 1rem;
+    }
+    
+    .seller-pending-deliveries-container ul {
+        gap: 1rem;
+    }
+    
+    .product-image-container {
+        height: 180px;
+    }
+}
