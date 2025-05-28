@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # IIIT Buy-Sell Website
+=======
+# The IIITH Loop
+>>>>>>> e20438b6002afe5f7680cf53bbecbf1057ff730c
 
 ## Project Overview
 
