@@ -1,4 +1,4 @@
-    import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
     import { useParams } from "react-router-dom";
     import toast from "react-hot-toast";
 
@@ -36,7 +36,8 @@
                                 <li key={product._id} className="sold-product-item">
                                     <h3>{product.name}</h3>
                                     <div className="product-details-box">
-                                        <p>Price: ${product.price}</p>
+                                        <p>Price:</p>
+                                        <p>₹{product.price}</p>
                                         <p>Category: {product.category}</p>
                                         <p>Description: {product.description}</p>
                                         <p>Sold on: {new Date(product.updatedAt).toLocaleString()}</p>

@@ -183,7 +183,7 @@ export default function Cart() {
                             <div className="product-details">
                                 <div className="product-details-grid">
                                     <p>Price:</p>
-                                    <p>${item.price}</p>
+                                    <p>₹{item.price}</p>
                                     <p>Category:</p>
                                     <p>{item.category}</p>
                                     <p>Description:</p>

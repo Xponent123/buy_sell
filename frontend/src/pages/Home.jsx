@@ -64,7 +64,7 @@ export default function Home() {
                             <div className="product-card-details">
                                 <div className="product-card-details-grid">
                                     <p>Price:</p>
-                                    <p>${product.price}</p>
+                                    <p>₹{product.price}</p>
                                     <p>Category:</p>
                                     <p>{product.category}</p>
                                     {/* </div> */}

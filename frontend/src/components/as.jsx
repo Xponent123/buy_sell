@@ -112,7 +112,7 @@ export default function Dashboard() {
                             onClick={() => navigate(`/product/${product._id}`)}
                         />
                         <h4>{product.name}</h4>
-                        <p>Price: ${product.price}</p>
+                        <p>Price: ₹{product.price}</p>
                         <p>Category: {product.category}</p>
                         <p>Description: {product.description}</p>
                         <p>Seller: {product.sellerId?.firstName} {product.sellerId?.lastName || "Unknown Seller"}</p>

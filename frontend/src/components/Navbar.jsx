@@ -4,12 +4,12 @@ import { UserContext } from '../../context/userContext';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { User, PlusCircle, ShoppingCart, History, Package, LogOut } from 'lucide-react';
-import { ShoppingBag } from 'lucide-react';
 import { ChevronDown } from 'lucide-react';
 import { Home, LogIn, UserPlus } from 'lucide-react';
 import { Sun, Moon } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import './Navbar.css';
+import sellIcon from '../assets/sell.png';
 
 
 export default function Navbar() {
@@ -76,8 +76,8 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="navbar-brand">
         <Link to="/dashboard" className="navbar-title">
-          <ShoppingBag size={24} className="navbar-icon" />
-          <h1>IIITH Bazaar</h1>
+          <img src={sellIcon} alt="Sell Icon" className="navbar-icon" style={{ width: '55px', height: '55px' }} />
+          <h1>The IIITH Loop</h1>
         </Link>
       </div>
 

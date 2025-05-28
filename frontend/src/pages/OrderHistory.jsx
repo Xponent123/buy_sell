@@ -177,7 +177,7 @@ export default function OrderHistory() {
                                     <div className="product-card-details">
                                         <div className="product-card-details-grid">
                                             <p>Price:</p>
-                                            <p>${order.productId.price}</p>
+                                            <p>₹{order.productId.price}</p>
                                             <p>Seller:</p>
                                             <p>{order.sellerId.firstName} {order.sellerId.lastName}</p>
                                             <p>Purchased:</p>
@@ -234,7 +234,7 @@ export default function OrderHistory() {
                                     <div className="product-card-details">
                                         <div className="product-card-details-grid">
                                             <p>Price:</p>
-                                            <p>${order.productId?.price}</p>
+                                            <p>₹{order.productId?.price}</p>
                                             <p>Seller:</p>
                                             <p>{order.sellerId?.firstName} {order.sellerId?.lastName}</p>
                                         </div>
@@ -269,7 +269,7 @@ export default function OrderHistory() {
                                     <div className="product-card-details">
                                         <div className="product-card-details-grid">
                                             <p>Price:</p>
-                                            <p>${product.price}</p>
+                                            <p>₹{product.price}</p>
                                             <p>Category:</p>
                                             <p>{product.category}</p>
                                             <p>Sold on:</p>

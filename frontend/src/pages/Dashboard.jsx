@@ -12,6 +12,7 @@ export default function Dashboard() {
     const [products, setProducts] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [searchQuery, setSearchQuery] = useState(""); 
+    const [showMyProducts, setShowMyProducts] = useState(false); // New state for toggling own products
     const navigate = useNavigate(); 
     const categories = [
         "Groceries",
@@ -125,10 +126,10 @@ export default function Dashboard() {
 
 
     const filteredProducts = products.filter((product) =>
-        product.sellerId?._id !== user.id &&
-        !product.sold &&
-        product.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        (selectedCategories.length === 0 || selectedCategories.includes(product.category))
+	(showMyProducts ? true : product.sellerId?._id !== user.id) && // Include own products if showMyProducts is true
+	!product.sold &&
+	product.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+	(selectedCategories.length === 0 || selectedCategories.includes(product.category))
     );
 
     const handleLogout = async () => {
@@ -247,49 +248,54 @@ export default function Dashboard() {
                 </div>
             </div>
 
-
+            <div className="show-my-products-toggle">
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={showMyProducts}
+                        onChange={() => setShowMyProducts(prev => !prev)}
+                    />
+                    Show My Products
+                </label>
+            </div>
 
             <h3>Available Products:</h3>
             <div className="dashboard-grid">
-                {filteredProducts
-                    .filter((product) => product.sellerId?._id !== user.id)
-                    .map((product) => (
-                        !product.sold && (
-                            <div key={product._id} className="product-card">
-                                <div
-                                    className="product-card-image-container"
-                                    onClick={() => navigate(`/product/${product._id}`)}
-                                >
-                                    <img
-                                        src={product.image_URL}
-                                        alt="product"
-                                        className="product-card-image"
-                                    />
-                                </div>
+                {filteredProducts.map((product) => (
+                    <div key={product._id} className="product-card">
+                        <div
+                            className="product-card-image-container"
+                            onClick={() => navigate(`/product/${product._id}`)}
+                        >
+                            <img
+                                src={product.image_URL}
+                                alt="product"
+                                className="product-card-image"
+                            />
+                        </div>
 
-                                <div className="product-card-name">{product.name}</div>
+                        <div className="product-card-name">{product.name}</div>
 
-                                <div className="product-card-details">
-                                    <div className="product-card-details-grid">
-                                        <p>Price:</p>
-                                        <p>${product.price}</p>
-                                        <p>Category:</p>
-                                        <p>{product.category}</p>
-                                       
-                                        <p>Description:</p>
-                                        <p>{product.description}</p>
-                                    </div>
-                                </div>
-
-                                <button
-                                    className="product-card-button"
-                                    onClick={() => handleAddToCart(product._id)}
-                                >
-                                    Add to Cart
-                                </button>
+                        <div className="product-card-details">
+                            <div className="product-card-details-grid">
+                                <p>Price:</p>
+                                <p>₹{product.price}</p>
+                                <p>Category:</p>
+                                <p>{product.category}</p>
+                               
+                                <p>Description:</p>
+                                <p>{product.description}</p>
                             </div>
-                        )
-                    ))}
+                        </div>
+
+                        <button
+                            className="product-card-button"
+                            onClick={() => handleAddToCart(product._id)}
+                        >
+                            Add to Cart
+                        </button>
+                    </div>
+                ))}
             </div>
 
 
