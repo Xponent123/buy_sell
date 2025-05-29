@@ -201,7 +201,7 @@ export default function Cart() {
                             <div className="cart-summary">
                                 <h3>Cart Summary</h3>
                                 <p>Total Items: {cartItems.length}</p>
-                                <p>Total Price: ${cartItems.reduce((total, item) => total + item.price, 0).toFixed(2)}</p>
+                                <p>Total Price: ₹{cartItems.reduce((total, item) => total + item.price, 0).toFixed(2)}</p>
                                 {buyAllButton}
                             </div>
                         </div>
