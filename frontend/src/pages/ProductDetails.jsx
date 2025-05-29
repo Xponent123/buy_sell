@@ -1,14 +1,13 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import './ProductDetails.css'
+import './ProductDetails.css'; // Ensure CSS is imported
 
 export default function ProductDetails() {
     const { productId } = useParams();
     const [product, setProduct] = useState(null);
     const navigate = useNavigate();
 
- 
     useEffect(() => {
         const fetchProductDetails = async () => {
             try {
@@ -36,53 +35,51 @@ export default function ProductDetails() {
     return (
         <div className="main-container">
             <div className="product-details-container">
+                <div className="product-image-column">
+                    <img src={product.image_URL} alt={product.name} className="product-details-image" />
+                </div>
 
+                <div className="product-info-column">
+                    <h1 className="product-details-title">{product.name}</h1>
 
-
-                <img src={product.image_URL} alt="product" className="product-details-image" height="50%" width="50%" />
-
-                <h1 className="product-details-title">{product.name}</h1>
-
-                <div className="product-details-info">
-                    <div className="product-details-section">
-                        <span className="product-details-label">Price</span>
-                        <p className="product-details-value">${product.price}</p>
-                    </div>
-
-                    <div className="product-details-section">
-                        <span className="product-details-label">Category</span>
-                        <p className="product-details-value">{product.category}</p>
+                    <div className="product-price-category">
+                        <span className="product-price">₹{product.price}</span>
+                        <span className="product-category-badge">{product.category}</span>
                     </div>
 
                     <div className="product-details-description">
-                        <span className="product-details-label">Description</span>
+                        <h3 className="product-details-label">Description</h3>
                         <p className="product-details-value">{product.description}</p>
                     </div>
 
                     <div className="product-details-seller-info">
-                        <div>
-                            <span className="product-details-label">Seller Name</span>
-                            <p className="product-details-value">
-                                {product.sellerId?.firstName} {product.sellerId?.lastName || "Unknown Seller"}
-                            </p>
-                        </div>
-                        <div>
-                            <span className="product-details-label">Seller Email</span>
-                            <p className="product-details-value">{product.sellerId?.email}</p>
-                        </div>
-                        <div>
-                            <span className="product-details-label">Contact Number</span>
-                            <p className="product-details-value">{product.sellerId?.contactNumber}</p>
+                        <h3>Seller Information</h3>
+                        <div className="seller-info-grid">
+                            <div className="seller-info-item">
+                                <span className="product-details-label">Name</span>
+                                <p className="product-details-value">
+                                    {product.sellerId?.firstName} {product.sellerId?.lastName || "N/A"}
+                                </p>
+                            </div>
+                            <div className="seller-info-item">
+                                <span className="product-details-label">Email</span>
+                                <p className="product-details-value">{product.sellerId?.email || "N/A"}</p>
+                            </div>
+                            <div className="seller-info-item">
+                                <span className="product-details-label">Contact</span>
+                                <p className="product-details-value">{product.sellerId?.contactNumber || "N/A"}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="product-details-back-btn-container">
-                <button
-                    className="product-details-back-btn"
-                    onClick={() => navigate("/dashboard")}
-                >
-                    Back to Dashboard
-                </button>
+                    
+                    <div className="product-details-back-btn-container">
+                        <button
+                            className="product-details-back-btn"
+                            onClick={() => navigate(-1)} // Go back to previous page
+                        >
+                            Back
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

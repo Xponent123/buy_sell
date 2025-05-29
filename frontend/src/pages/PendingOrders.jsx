@@ -1,37 +1,54 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import './PendingOrders.css';
+import { useParams, Link } from "react-router-dom"; // Added Link
+import './PendingOrders.css'; // We will revamp this CSS file
 import toast from 'react-hot-toast';
+import { AlertCircle, CheckCircle, Loader2 } from 'lucide-react'; // Added icons
 
 export default function PendingDeliveries() {
     const { sellerId } = useParams();
     const [orders, setOrders] = useState([]);
     const [otpInputs, setOtpInputs] = useState({});
     const [loading, setLoading] = useState(true);
+    const [approvingOrderId, setApprovingOrderId] = useState(null); // For loading state on button
 
     useEffect(() => {
         const fetchOrders = async () => {
+            setLoading(true);
             try {
                 const response = await fetch(`http://localhost:8000/api/orders/pending/${sellerId}`);
                 const data = await response.json();
                 if (data.success) {
                     setOrders(data.orders);
                 } else {
-                    console.error(data.message);
+                    toast.error(data.message || "Failed to fetch pending orders.");
+                    setOrders([]); // Ensure orders is an array on failure
                 }
             } catch (error) {
                 console.error("Error fetching pending orders:", error);
+                toast.error("An error occurred while fetching pending orders.");
+                setOrders([]);
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchOrders();
+        if (sellerId) {
+            fetchOrders();
+        } else {
+            setLoading(false);
+            toast.error("Seller ID is missing.");
+        }
     }, [sellerId]);
 
     const handleApproveDelivery = async (orderId) => {
+        setApprovingOrderId(orderId);
         try {
             const otp = otpInputs[orderId];
+            if (!otp || otp.trim() === "") {
+                toast.error("Please enter the OTP.");
+                setApprovingOrderId(null);
+                return;
+            }
             const response = await fetch(`http://localhost:8000/api/orders/approve/${orderId}`, {
                 method: "PATCH",
                 headers: {
@@ -43,70 +60,92 @@ export default function PendingDeliveries() {
             const data = await response.json();
             if (data.success) {
                 setOrders(orders.filter(order => order._id !== orderId));
-                toast.success("Delivery approved successfully");
+                toast.success("Delivery approved successfully!");
             } else {
-                toast.error(data.message);
+                toast.error(data.message || "Failed to approve delivery.");
             }
         } catch (error) {
             console.error("Error approving delivery:", error);
-            toast.error("Failed to approve delivery. Please try again");
+            toast.error("Failed to approve delivery. Please try again.");
+        } finally {
+            setApprovingOrderId(null);
         }
     };
 
     if (loading) {
-        return <div className="loading">Loading pending deliveries...</div>;
+        return (
+            <div className="page-loading-container">
+                <Loader2 className="animate-spin" size={48} />
+                <p>Loading pending deliveries...</p>
+            </div>
+        );
     }
 
     return (
-        <div className="main-container23">
-            <div className="seller-pending-deliveries-container">
+        <div className="pending-orders-page-container">
+            <div className="pending-orders-header">
                 <h1>Pending Deliveries</h1>
-                {orders.length > 0 ? (
-                    <ul>
-                        {orders.map(order => (
-                            <li key={order._id}>
-                                <div className="product-image-container">
-                                    <img
-                                        src={order.productId?.image_URL}
-                                        alt={order.productId?.name}
-                                        className="product-image"
-                                    />
-                                </div>
+                <p>Manage and approve orders awaiting delivery confirmation.</p>
+            </div>
+
+            {orders.length > 0 ? (
+                <ul className="pending-orders-list">
+                    {orders.map(order => (
+                        <li key={order._id} className="pending-order-card">
+                            <div className="pending-order-card-image-wrapper">
+                                <img
+                                    src={order.productId?.image_URL || '/placeholder-image.png'} // Fallback image
+                                    alt={order.productId?.name || 'Product Image'}
+                                    className="pending-order-card-image"
+                                />
+                            </div>
+                            
+                            <div className="pending-order-card-content">
+                                <h3 className="pending-order-card-product-name">{order.productId?.name || 'Product Name N/A'}</h3>
                                 
-                                <div className="product-name">{order.productId?.name}</div>
-                                
-                                <div className="details-grid">
-                                    <p>Price:</p>
-                                    <p>${order.productId?.price}</p>
-                                    <p>Buyer:</p>
-                                    <p>{order.buyerId?.firstName} {order.buyerId?.lastName}</p>
-                                    <p>Email:</p>
-                                    <p>{order.buyerId?.email}</p>
-                                    {/* <p>Phone:</p>
-                                    <p>{order.buyerId?.contactNumber}</p> */}
+                                <div className="pending-order-card-details">
+                                    <p><strong>Price:</strong> ₹{order.productId?.price !== undefined ? order.productId.price : 'N/A'}</p>
+                                    <p><strong>Buyer:</strong> {order.buyerId?.firstName || 'N/A'} {order.buyerId?.lastName || ''}</p>
+                                    <p><strong>Email:</strong> {order.buyerId?.email || 'N/A'}</p>
+                                    {/* <p><strong>Contact:</strong> {order.buyerId?.contactNumber || 'N/A'}</p> */}
                                 </div>
 
-                                <input
-                                    type="text"
-                                    placeholder="Enter OTP"
-                                    value={otpInputs[order._id] || ""}
-                                    onChange={(e) => setOtpInputs({ ...otpInputs, [order._id]: e.target.value })}
-                                />
-                                <button
-                                    onClick={() => handleApproveDelivery(order._id)}
-                                    disabled={!otpInputs[order._id]}
-                                >
-                                    Approve Delivery
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                ) : (
-                    <p>No pending deliveries.</p>
-                )}
-                <div className="dashboard-button-container">
-                    <a href="/dashboard" className="go-to-dashboard">Go to Dashboard</a>
+                                <div className="pending-order-card-otp-section">
+                                    <input
+                                        type="text"
+                                        className="otp-input"
+                                        placeholder="Enter Delivery OTP"
+                                        value={otpInputs[order._id] || ""}
+                                        onChange={(e) => setOtpInputs({ ...otpInputs, [order._id]: e.target.value })}
+                                    />
+                                    <button
+                                        className="approve-delivery-button"
+                                        onClick={() => handleApproveDelivery(order._id)}
+                                        disabled={!otpInputs[order._id] || approvingOrderId === order._id}
+                                    >
+                                        {approvingOrderId === order._id ? (
+                                            <Loader2 className="animate-spin inline-block mr-2" size={16} />
+                                        ) : (
+                                            <CheckCircle className="inline-block mr-2" size={16} />
+                                        )}
+                                        {approvingOrderId === order._id ? 'Approving...' : 'Approve Delivery'}
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <div className="no-pending-orders">
+                    <AlertCircle size={48} className="mb-4" />
+                    <h2>No Pending Deliveries</h2>
+                    <p>You currently have no orders awaiting delivery confirmation.</p>
                 </div>
+            )}
+            <div className="dashboard-button-container-pending">
+                <Link to="/dashboard" className="go-to-dashboard-link">
+                    Back to Dashboard
+                </Link>
             </div>
         </div>
     );

@@ -1,205 +1,248 @@
-
-.main-container {
-    max-width: 1400px;
-    margin: 0 auto;
+/* General Page Styles */
+.pending-orders-page-container {
+    max-width: 1200px;
+    margin: 2rem auto;
     padding: 2rem;
-    min-height: 100vh;
-}
-
-.seller-pending-deliveries-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 2rem;
-}
-
-.seller-pending-deliveries-container h1 {
-    font-size: 2.5rem;
+    background-color: var(--bg);
     color: var(--text);
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-    border-radius: 12px;
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    box-shadow: 0 4px 6px var(--light-shadow);
+    min-height: calc(100vh - 4rem); /* Adjust based on navbar/footer */
 }
 
+.pending-orders-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
 
-.seller-pending-deliveries-container ul {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
+.pending-orders-header h1 {
+    font-size: 2.5rem;
+    color: var(--primary);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.pending-orders-header p {
+    font-size: 1.1rem;
+    color: var(--light-secondary-text);
+}
+
+/* Loading State */
+.page-loading-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    color: var(--primary);
+}
+
+.page-loading-container p {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    color: var(--text);
+}
+
+/* Orders List */
+.pending-orders-list {
     list-style: none;
     padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
 }
 
-.seller-pending-deliveries-container li {
+/* Individual Order Card */
+.pending-order-card {
     background: var(--card-bg);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    position: relative;
+    border-radius: var(--border-radius-large);
+    padding: 1.5rem;
+    box-shadow: var(--box-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
 
-.seller-pending-deliveries-container li:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px var(--light-shadow);
+.pending-order-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--box-shadow-hover);
     border-color: var(--primary);
 }
 
-
-.product-image-container {
+.pending-order-card-image-wrapper {
     width: 100%;
-    height: 200px;
+    height: 200px; /* Fixed height for image container */
     overflow: hidden;
-    position: relative;
-    cursor: pointer;
+    border-radius: var(--border-radius);
+    margin-bottom: 1.5rem;
+    background-color: var(--bg); /* Placeholder background */
 }
 
-.product-image {
-    max-width: 10vw;
-    max-height: 20vh ;
-    object-fit: cover;
-    transition: transform 0.5s ease;
+.pending-order-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Or 'contain' if full image visibility is preferred */
+    transition: transform 0.3s ease;
 }
 
-.seller-pending-deliveries-container li:hover .product-image {
+.pending-order-card:hover .pending-order-card-image {
     transform: scale(1.05);
 }
 
-
-.product-details {
-    padding: 1rem;
+.pending-order-card-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
-.product-name {
-    padding: 1rem;
-    font-size: 1.2rem;
+.pending-order-card-product-name {
+    font-size: 1.4rem;
+    color: var(--primary);
     font-weight: 600;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+
+.pending-order-card-details {
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    color: var(--light-text);
+    flex-grow: 1;
+}
+
+.pending-order-card-details p {
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
+.pending-order-card-details strong {
     color: var(--text);
-    border-bottom: 1px solid var(--border);
-}
-
-.details-grid {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 0.5rem 1rem;
-    padding: 1rem;
-}
-
-.details-grid p:nth-child(odd) {
-    color: var(--light-secondary-text);
     font-weight: 500;
+    margin-right: 0.5em;
 }
 
-.details-grid p:nth-child(even) {
-    color: var(--text);
+/* OTP Section */
+.pending-order-card-otp-section {
+    margin-top: auto; /* Pushes OTP section to the bottom */
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
-
-.seller-pending-deliveries-container input {
-    width: calc(100% - 2rem);
-    margin: 1rem;
-    padding: 0.8rem;
+.otp-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
     border: 1px solid var(--border);
-    border-radius: 8px;
-    background: var(--bg);
+    background-color: var(--bg);
     color: var(--text);
+    border-radius: var(--border-radius-small);
     font-size: 1rem;
-    transition: all 0.3s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.seller-pending-deliveries-container input:focus {
+.otp-input::placeholder {
+    color: var(--light-secondary-text);
+}
+
+.otp-input:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    box-shadow: 0 0 0 2px var(--primary-glow);
 }
 
-
-.seller-pending-deliveries-container button {
-    width: calc(100% - 2rem);
-    margin: 1rem;
-    padding: 0.75rem;
-    background: var(--primary);
-    color: white;
+.approve-delivery-button {
+    background-color: var(--primary);
+    color: var(--button-text-primary, #fff);
     border: none;
-    border-radius: 8px;
-    font-weight: 500;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius-small);
+    font-weight: 600;
+    font-size: 1rem;
     cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
-.seller-pending-deliveries-container button:disabled {
-    background: var(--border);
+.approve-delivery-button:hover:not(:disabled) {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--box-shadow-hover);
+}
+
+.approve-delivery-button:disabled {
+    background-color: var(--border);
     color: var(--light-secondary-text);
     cursor: not-allowed;
 }
 
-.seller-pending-deliveries-container button:not(:disabled):hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+.approve-delivery-button .animate-spin {
+    animation: spin 1s linear infinite;
 }
 
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
 
-.seller-pending-deliveries-container > p {
+/* No Orders State */
+.no-pending-orders {
     text-align: center;
     padding: 3rem;
-    color: var(--light-secondary-text);
-    font-style: italic;
-    background: var(--bg);
-    border-radius: 8px;
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius-large);
     border: 1px dashed var(--border);
-}
-
-
-.dashboard-button-container {
-    text-align: center;
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border);
-}
-
-.go-to-dashboard {
-    display: inline-block;
-    padding: 1rem 2rem;
-    background: var(--primary);
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    font-weight: 500;
-}
-
-.go-to-dashboard:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px var(--light-shadow);
-}
-
-
-.loading {
-    text-align: center;
-    padding: 2rem;
     color: var(--light-secondary-text);
 }
 
+.no-pending-orders h2 {
+    font-size: 1.8rem;
+    color: var(--text);
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
 
+.no-pending-orders p {
+    font-size: 1.1rem;
+}
+
+/* Dashboard Button */
+.dashboard-button-container-pending {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.go-to-dashboard-link {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background: var(--primary);
+    color: var(--button-text-primary, #fff);
+    text-decoration: none;
+    border-radius: var(--border-radius-pill);
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.go-to-dashboard-link:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--box-shadow-hover);
+}
+
+/* Responsive Adjustments */
 @media (max-width: 768px) {
-    .seller-pending-deliveries-container {
+    .pending-orders-page-container {
         padding: 1rem;
     }
-    
-    .seller-pending-deliveries-container h1 {
+    .pending-orders-header h1 {
         font-size: 2rem;
+    }
+    .pending-orders-list {
+        grid-template-columns: 1fr; /* Single column on smaller screens */
+        gap: 1.5rem;
+    }
+    .pending-order-card {
         padding: 1rem;
-    }
-    
-    .seller-pending-deliveries-container ul {
-        gap: 1rem;
-    }
-    
-    .product-image-container {
-        height: 180px;
     }
 }

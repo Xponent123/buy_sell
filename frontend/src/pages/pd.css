@@ -1,9 +1,9 @@
 :root {
    
-    --primary-color: #e4e6ff;
-    --secondary-color: #a8b2ff;
-    --accent-color: #5b6eff;
-    --accent-secondary: #8c63ff;
+    --primary-color: #9370DB; /* Lavender */
+    --secondary-color: #7B68EE; /* Darker Lavender */
+    --accent-color: #9370DB; /* Lavender */
+    --accent-secondary: #FFD700; /* Gold as secondary accent */
 
     --background-color: #0f1229;
     --card-background: #1a2148;
@@ -11,7 +11,7 @@
     --border-color: #2c3766;
 
     --gradient-primary: linear-gradient(135deg, #1a2148 0%, #0f1229 100%);
-    --gradient-accent: linear-gradient(45deg, #5b6eff, #8c63ff);
+    --gradient-accent: linear-gradient(45deg, #9370DB, #7B68EE); /* Lavender gradient */
 
     --border-radius: 16px;
     --box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
@@ -139,7 +139,7 @@ body {
 }
 
 .seller-pending-deliveries-container button {
-    background: linear-gradient(45deg, #2ecc71, #27ae60);
+    background: var(--gradient-accent); /* Lavender gradient */
     color: white;
     border: none;
     padding: 0.8rem 1.5rem;
@@ -170,7 +170,7 @@ body {
 
 .seller-pending-deliveries-container button:hover:not(:disabled) {
     transform: translateY(-3px);
-    box-shadow: 0 7px 20px rgba(46, 204, 113, 0.4);
+    box-shadow: 0 7px 20px rgba(147, 112, 219, 0.4); /* Lavender shadow */
 }
 
 .seller-pending-deliveries-container button:hover::before {
@@ -179,7 +179,7 @@ body {
 
 .seller-pending-deliveries-container button:active:not(:disabled) {
     transform: translateY(1px);
-    box-shadow: 0 3px 10px rgba(46, 204, 113, 0.2);
+    box-shadow: 0 3px 10px rgba(147, 112, 219, 0.2); /* Lavender shadow */
 }
 
 .seller-pending-deliveries-container button:disabled {

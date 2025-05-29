@@ -3,11 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { UserContext } from '../../context/userContext';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { User, PlusCircle, ShoppingCart, History, Package, LogOut } from 'lucide-react';
-import { ChevronDown } from 'lucide-react';
-import { Home, LogIn, UserPlus } from 'lucide-react';
-import { Sun, Moon } from 'lucide-react';
-import { useTheme } from '../../context/ThemeContext';
+import { User, PlusCircle, ShoppingCart, History, Package, LogOut, Home, LogIn, UserPlus, ChevronDown } from 'lucide-react'; 
 import './Navbar.css';
 import sellIcon from '../assets/sell.png';
 
@@ -16,9 +12,6 @@ export default function Navbar() {
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const location = useLocation();
-
-  const { theme, toggleTheme } = useTheme();
-
 
 
   useEffect(() => {
@@ -35,17 +28,25 @@ export default function Navbar() {
           axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         } else {
           console.log('Invalid user data. Clearing localStorage...');
-          handleLogout();
+          // Call your actual logout logic if it's different from handleLogoutInternal
+          // For now, assuming a simplified clear
+          localStorage.removeItem('user');
+          localStorage.removeItem('token');
+          delete axios.defaults.headers.common['Authorization'];
+          setUser(null);
         }
       } catch (error) {
         console.error('Error parsing user data:', error);
-        handleLogout();
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        delete axios.defaults.headers.common['Authorization'];
+        setUser(null);
       }
     }
   }, [setUser]);
 
 
-  const handleLogout = async () => {
+  const handleLogoutInternal = async () => { // Renamed to avoid conflict if there's another handleLogout
     try {
       await axios.post('/logout', {}, {
         withCredentials: true,
@@ -60,10 +61,12 @@ export default function Navbar() {
 
       delete axios.defaults.headers.common['Authorization'];
       setUser(null);
-      window.location.href = 'http://localhost:8000/cas/logout';
+      // Redirecting to CAS logout and then to login page
+      // Ensure this CAS logout URL is correct and handles redirection back appropriately or if /login is the final destination.
+      window.location.href = 'http://localhost:8000/cas/logout?service=' + encodeURIComponent(window.location.origin + '/login');
 
 
-      navigate('/login');
+      // navigate('/login'); // This might be redundant if CAS logout handles redirection
       toast.success('Logout successful');
     } catch (error) {
       console.error('Logout failed', error);
@@ -84,9 +87,6 @@ export default function Navbar() {
       <div className="navbar-links">
         {!user ? (
           <>
-            <button onClick={toggleTheme} className="theme-toggle">
-              {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
-            </button>
             <Link to="/" className={`navbar-link ${location.pathname === '/' ? 'active' : ''}`}>
               <Home size={18} className="link-icon" /> Home
             </Link>
@@ -100,9 +100,6 @@ export default function Navbar() {
         ) : (
           <div className="dropdown">
             <div className="navbar-user">
-              <button onClick={toggleTheme} className="theme-toggle">
-                {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
-              </button>
               <div className="user-section">
                 <h3 className="user-name">{user.firstName}</h3>
                 <div className="user-info">
@@ -135,7 +132,7 @@ export default function Navbar() {
                 <button onClick={() => navigate(`/unsoldproducts/${user.id}`)}>
                   <Package size={16} className="dropdown-icon" /> Unsold Products
                 </button>
-                <button onClick={handleLogout}>
+                <button onClick={handleLogoutInternal}>
                   <LogOut size={16} className="dropdown-icon" /> Logout
                 </button>
               </div>

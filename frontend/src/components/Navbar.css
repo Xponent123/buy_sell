@@ -1,11 +1,10 @@
-
 .navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1.25rem 2.5rem;
-  background: var(--card-bg);
-  border-bottom: 1px solid var(--border);
+  background: #1E1E1E; /* Dark gray */
+  border-bottom: 1px solid #2A2A2A; /* Dark gray border */
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -25,14 +24,92 @@
   align-items: center;
   gap: 1rem;
   text-decoration: none;
-  color: var(--text);
+  color: #F5F5F5; /* Off-white */
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 600;
 }
 
 .navbar-title:hover {
-  color: var(--primary);
-  transform: translateY(-2px);
+  /* color: #E0E0E0; */ /* Remove direct color change on hover if gradient is preferred */
+  transform: translateY(-2px); /* This hover can remain for the whole title link */
+}
+
+@keyframes loopGradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Refined keyframes for the logo's intro animation */
+@keyframes logoIntroBounceAndSettle {
+  0% {
+    transform: translateY(-80px) translateX(-50px) rotate(-150deg) scale(0.2);
+    opacity: 0;
+  }
+  25% { /* Coming in fast */
+    transform: translateY(20px) translateX(-20px) rotate(30deg) scale(1.2);
+    opacity: 1;
+  }
+  40% { /* First bounce impact */
+    transform: translateY(0px) translateX(-10px) rotate(-10deg) scale(1);
+  }
+  55% { /* Bounce up */
+    transform: translateY(-15px) translateX(0px) rotate(10deg) scale(1.1);
+  }
+  70% { /* Approaching for "collision", moving right towards the text */
+    transform: translateY(0px) translateX(15px) rotate(-5deg) scale(1.05);
+  }
+  75% { /* "Collision" impact point - logo slightly overshoots and jiggles */
+    transform: translateY(-2px) translateX(18px) rotate(5deg) scale(1.08);
+  }
+  85% { /* Recoil from collision and start settling */
+    transform: translateY(1px) translateX(12px) rotate(-2deg) scale(1.02);
+  }
+  100% { /* Settled in final position relative to its flex container */
+    transform: translateY(0px) translateX(0px) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Keyframes for the title's reaction to the "collision" */
+@keyframes titleReactOnCollision {
+  0% { /* Moment of impact */
+    transform: translateX(0px) rotate(0deg);
+  }
+  30% { /* Title gets pushed slightly */
+    transform: translateX(8px) rotate(1.5deg);
+  }
+  60% { /* Title bounces back a bit */
+    transform: translateX(-3px) rotate(-0.5deg);
+  }
+  100% { /* Title settles back to original position */
+    transform: translateX(0px) rotate(0deg);
+  }
+}
+
+/* Style for the logo image itself */
+.navbar-title img { 
+  width: 30px; 
+  height: 30px; 
+  /* margin-right will be handled by parent's gap */
+  animation: logoIntroBounceAndSettle 2.0s cubic-bezier(0.34, 1.56, 0.64, 1) 1 forwards; /* Bouncier easing, slightly faster */
+  opacity: 0; 
+  transform-origin: center center; 
+  position: relative; /* To ensure it's above if any z-index issues, though unlikely here */
+  z-index: 1; /* Ensure logo is visually in front during its animation if needed */
+}
+
+
+/* Optional: Enhance logo on hover of the entire navbar-title link */
+.navbar-title:hover img {
+  transform: scale(1.1); /* Slightly scale up the logo when the link is hovered */
+  /* The logoSpin animation will continue */
 }
 
 .navbar-title h1 {
@@ -40,10 +117,19 @@
   font-weight: 800;
   margin: 0;
   letter-spacing: -0.03em;
-  background: linear-gradient(135deg, var(--primary), var(--light-primary));
+  /* Bright Cyan to Electric Blue Gradient */
+  background: linear-gradient(45deg, #00FFFF, #007FFF, #00FFFF); /* Added #00FFFF at the end for smoother loop */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 2px 10px rgba(var(--primary-rgb), 0.2);
+  background-size: 200% 200%; /* Ensure background size is large enough for animation */
+  text-shadow: 
+    0px 1px 2px rgba(0,0,0,0.2); /* Softer shadow for better readability of bright text */
+  position: relative; /* Important for transform to not mess with layout and for z-index if needed */
+  /* Apply both animations: gradient loop and collision reaction */
+  /* Collision reaction is timed to start when logo "hits" (approx 70% of logo's 2.0s animation) */
+  animation: 
+    loopGradientAnimation 6s ease infinite,
+    titleReactOnCollision 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 1.4s 1 forwards; /* 2.0s * 0.70 = 1.4s delay */
 }
 
 .navbar-links {
@@ -57,7 +143,7 @@
   align-items: center;
   gap: 0.625rem;
   text-decoration: none;
-  color: var(--text);
+  color: #F5F5F5; /* Off-white */
   font-weight: 500;
   padding: 0.75rem 1rem;
   border-radius: 0.75rem;
@@ -74,16 +160,15 @@
   right: 0;
   bottom: 0;
   height: 2px;
-  background: var(--primary);
+  background: var(--primary); /* Lavender for underline */
   transform: translateY(2px);
   opacity: 0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .navbar-link:hover {
-  color: var(--primary);
-  background: linear-gradient(to bottom, transparent, var(--light-hover));
-  transform: translateY(-1px);
+  color: var(--primary); /* Lavender */
+  background-color: var(--light-hover); /* Subtle lavender background on hover */
 }
 
 .navbar-link:hover::before {
@@ -92,71 +177,34 @@
 }
 
 .navbar-link.active {
-  color: var(--primary);
-  background: var(--light-hover);
+  color: var(--primary); /* Lavender */
+  background-color: var(--light-hover);
   font-weight: 600;
 }
 
 .navbar-link.active::before {
   transform: translateY(0);
   opacity: 1;
-  height: 3px;
+  height: 2px; /* Consistent height */
 }
 
-.theme-toggle {
-  background: var(--bg);
-  border: 2px solid var(--border);
-  padding: 0.625rem;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  margin-right: 1.25rem;
-  color: var(--text);
-  height: 2.5rem;
-  width: 2.5rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.theme-toggle::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--primary);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: -1;
-}
-
-.theme-toggle:hover {
-  transform: scale(1.1) rotate(8deg);
-  border-color: var(--primary);
-  color: var(--primary);
-  box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.2);
-}
-
-.theme-toggle:hover::before {
-  opacity: 0.1;
-}
+/* Remove theme toggle button styles */
 
 .navbar-user {
   display: flex;
   align-items: center;
   gap: 1.25rem;
-  position: relative;
   padding: 0.625rem 1rem;
   border-radius: 3rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  background: var(--bg);
-  border: 2px solid var(--border);
+  background: #121212; /* Near black */
+  border: 2px solid #2A2A2A; /* Dark gray border */
+  cursor: pointer;
 }
 
 .navbar-user:hover {
-  border-color: var(--primary);
-  box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.15);
+  border-color: var(--primary); /* Lavender */
+  box-shadow: 0 2px 8px var(--glow-shadow); /* Subtle lavender glow */
   transform: translateY(-1px);
 }
 
@@ -170,12 +218,12 @@
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
-  color: var(--text);
+  color: #F5F5F5; /* Off-white */
   transition: color 0.3s ease;
 }
 
 .navbar-user:hover .user-name {
-  color: var(--primary);
+  color: var(--primary); /* Lavender */
 }
 
 .user-avatar {
@@ -183,13 +231,13 @@
   height: 2.5rem;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--border);
+  border: 2px solid #2A2A2A; /* Dark gray border */
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-user:hover .user-avatar {
-  border-color: var(--primary);
+  border-color: var(--primary); /* Lavender */
   transform: scale(1.1) rotate(5deg);
 }
 
@@ -210,7 +258,7 @@
 }
 
 .dropdown-btn:hover {
-  color: var(--primary);
+  color: #FFD700; /* Gold */
   transform: translateY(-1px) rotate(8deg);
 }
 
@@ -220,8 +268,8 @@
   right: 0;
   top: calc(100% + 0.75rem);
   min-width: 240px;
-  background: var(--bg);
-  border: 2px solid var(--border);
+  background: #121212; /* Near black */
+  border: 2px solid #2A2A2A; /* Dark gray border */
   border-radius: 1rem;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   z-index: 1000;
@@ -252,7 +300,7 @@
   align-items: center;
   gap: 1rem;
   background: transparent;
-  color: var(--text);
+  color: #F5F5F5; /* Off-white */
   border: none;
   border-radius: 0.75rem;
   cursor: pointer;
@@ -267,20 +315,21 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--primary);
+  background: #FFD700; /* Gold */
   opacity: 0;
   transition: opacity 0.3s ease;
   z-index: -1;
 }
 
 .dropdown-content button:hover {
-  background: var(--light-hover);
-  color: var(--primary);
+  background: #825bcd; /* Darker lavender from your theme (var(--secondary-color) if it's this shade) */
+  color: var(--text); /* Bright off-white text */
   transform: translateX(6px);
+  box-shadow: 0 2px 8px rgba(130, 91, 205, 0.4); /* Softer lavender glow */
 }
 
 .dropdown-content button:hover::before {
-  opacity: 0.1;
+  opacity: 0; 
 }
 
 .dropdown-icon {
@@ -291,7 +340,7 @@
 .dropdown-content button:hover .dropdown-icon {
   opacity: 1;
   transform: scale(1.2) rotate(8deg);
-  color: var(--primary);
+  color: var(--text); /* Bright off-white icon */
 }
 
 @media (max-width: 768px) {
@@ -337,8 +386,8 @@
   padding: 0.625rem 1rem;
   border-radius: 3rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  background: var(--bg);
-  border: 2px solid var(--border);
+  background: #121212; /* Near black */
+  border: 2px solid #2A2A2A; /* Dark gray border */
   cursor: pointer;
 }
 
@@ -354,8 +403,8 @@
   right: 0;
   top: calc(100% + 0.5rem);
   min-width: 240px;
-  background: var(--bg);
-  border: 2px solid var(--border);
+  background: #121212; /* Near black */
+  border: 2px solid #2A2A2A; /* Dark gray border */
   border-radius: 1rem;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   z-index: 1000;

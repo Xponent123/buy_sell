@@ -16,6 +16,7 @@ import ProductDetails from "./pages/ProductDetails";
 import ChatBot from "./pages/Chatbot";
 import YetToBeDelivered from "./pages/YettobeDelivered";
 import PendingOrders from "./pages/PendingOrders";
+import AvailableProducts from "./pages/AvailableProducts";
 import { Toaster } from "react-hot-toast";
 import { UserContextProvider, UserContext } from "../context/userContext";
 import axios from "axios";
@@ -154,6 +155,14 @@ useEffect(() => {
           element={
             <ProtectedRoute>
               <PendingOrders />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/products"
+          element={
+            <ProtectedRoute>
+              <AvailableProducts />
             </ProtectedRoute>
           }
         />

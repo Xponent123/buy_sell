@@ -16,11 +16,11 @@ export default function SoldProducts() {
                 if (response.ok) {
                     setSoldProducts(data.products);
                 } else {
-                    toast.error(data.error || "Failed to fetch sold products.");
+                    toast.error(data.error || "Failed to fetch unsold products.");
                 }
             } catch (error) {
-                console.error("Error fetching sold products:", error);
-                toast.error("An error occurred while fetching sold products.");
+                console.error("Error fetching unsold products:", error);
+                toast.error("An error occurred while fetching unsold products.");
             }
         };
 
@@ -44,7 +44,7 @@ export default function SoldProducts() {
                                 <div className="product-details-box">
                                     <div className="product-details-grid">
                                         <p>Price:</p>
-                                        <p>${product.price}</p>
+                                        <p>₹{product.price}</p>
                                         <p>Category:</p>
                                         <p>{product.category}</p>
                                         <p>Description:</p>
